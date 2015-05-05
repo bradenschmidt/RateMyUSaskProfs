@@ -3,19 +3,33 @@ function linkify() {
 	// Checking page title
 	if (document.title.indexOf("Google") == -1) {
 		//Test
-		alert();
+		//alert();
 
 		//Get Table
 		// Cross Domain Exception
 		//var table = window.frames[0].document.getElementsByClassName("datadisplaytable");
-		var table = document.getElementsByClassName('datadisplaytable');
+		var tables = document.getElementsByClassName('datadisplaytable');
+
+		var table = tables[0];
 
 		//TEST
-		alert(table);
+		//alert(table);
+		//
+		//alert(table.rows.length);
 
-		for (var i = 0, row; row = table.rows[i]; i++) {
-		   for (var j = 0, col; col = row.cells[j]; j++) {
-		     alert(col);
+		var rows = table.getElementsByTagName('tr');
+		console.dir(rows);
+
+		for (var row in rows) {
+			//alert('test');
+
+			//alert(row.cells.length);
+			//alert(row.cells[0].textContent);
+
+			console.dir(row);
+
+		   for (var col in row.cells) {
+		     console.dir(col);
 		     //iterate through columns
 		     //columns would be accessed using the "col" variable assigned in the for loop
 		   }
