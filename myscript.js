@@ -12,27 +12,60 @@ function linkify() {
 
 		var table = tables[0];
 
-		//TEST
-		//alert(table);
-		//
-		//alert(table.rows.length);
-
 		var rows = table.getElementsByTagName('tr');
 		console.dir(rows);
 
-		for (var row in rows) {
-			//alert('test');
+		// Prep instructor column variable.
+		var instructorColumn = null;
 
-			//alert(row.cells.length);
-			//alert(row.cells[0].textContent);
+		// Loop through rows to find instructor cell location
+		instructorLoop:
+		for (var i = 0; i < rows.length; i++) {
+			//console.dir(rows[i]);
 
-			console.dir(row);
+			// Get row we are at
+			var row = rows[i];
 
-		   for (var col in row.cells) {
-		     console.dir(col);
-		     //iterate through columns
-		     //columns would be accessed using the "col" variable assigned in the for loop
-		   }
+			// Skip rows without table content
+			if(row.cells.length <= 1) {
+				//console.log("Skipped row:");
+				//console.log(row.textContent);
+			} else {
+				// Loop through cells in each row
+			   	for (var j = 0; j < row.cells.length; j++) {
+			     	//console.dir(row.cells[j]);
+			     	//console.dir(row.cells[j].textContent);
+
+			     	if(row.cells[j].textContent == "Instructor") {
+			     		console.log("Ins: " + j);
+			     		var instructorColumn = j;
+			     		break instructorLoop;
+			     	}
+			   	}
+			}
+		}
+
+		// Error check if we found the instructor Column or not
+	   	if(instructorColumn === null) {
+	   		alert("Failed to find Instructor Column.");
+	   	} else {
+			// Loop through rows changing instructors cells.
+			for (var i = 0; i < rows.length; i++) {
+				//console.dir(rows[i]);
+
+				// Get row we are at
+				var row = rows[i];
+
+				// Skip rows without table content
+				if(row.cells.length <= 1) {
+					//console.log("Skipped row:");
+					//console.log(row.textContent);
+				} else {
+					if(row.cells[instructorColumn].textContent != "Instructor") {
+						row.cells[instructorColumn].innerHTML = "HI";
+					}
+				}
+			}
 		}
 
 		//// TEST ////
