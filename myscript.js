@@ -61,8 +61,16 @@ function linkify() {
 					//console.log("Skipped row:");
 					//console.log(row.textContent);
 				} else {
-					if(row.cells[instructorColumn].textContent != "Instructor") {
-						row.cells[instructorColumn].innerHTML = "HI";
+					var cell = row.cells[instructorColumn];
+					if(cell.textContent != "Instructor") {
+						// Get the prof name
+						var profName = cell.textContent;
+
+						// Remove Parentheses and content in them ie. (P)
+						profName = profName.replace(/ *\([^)]*\) */g, "");
+
+						// Replace prof name
+						cell.innerHTML = profName;
 					}
 				}
 			}
