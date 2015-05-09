@@ -5,6 +5,7 @@
   "description": "This extension shows a popup when an instructor is selected in USask Class Registration Pages.",
   "version": "0.1",
 
+
   "page_action": {
     "default_icon": {
       "19": "images/icon19.png"
@@ -15,15 +16,21 @@
 
   "content_scripts": [
     {
-      "matches": ["https://paws5.usask.ca/web/home-community*"],
-      "js": ["myscript.js"],
-      "all_frames": true
+      "matches": ["https://paws5.usask.ca/web/home-community*", "http://192.168.1.5/rate/*"],
+      "js": ["myscript.js"]
     }
-  ]//,
+  ],
 
-  //"permissions": [
-    //"http://*.usask.ca/"
-  //]
-  //
+  "permissions": [
+    "http://*.usask.ca/"
+  ],
+
+  "background": {
+
+    "scripts": ["background.js"],
+    "persistent": true
+
+    }
+
 
 }

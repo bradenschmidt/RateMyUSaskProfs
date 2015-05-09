@@ -1,4 +1,13 @@
 
+// The extension ID
+var extensionID = "jcnimoojgnaighleoldnkbhembpdhoij";
+
+var searchPageURL = "";
+
+/**
+ * [linkify description]
+ * @return {[type]} [description]
+ */
 function linkify() {
 	// Checking page title
 	if (document.title.indexOf("Google") == -1) {
@@ -71,6 +80,8 @@ function linkify() {
 
 						// Replace prof name
 						cell.innerHTML = profName;
+
+						getProfessorSearchPage(profName);
 					}
 				}
 			}
@@ -85,4 +96,33 @@ function linkify() {
 	    //Appending to DOM
 	    document.body.appendChild(button);
 	}
+}
+
+/**
+ * [getProfessorPage description]
+ * SOURCE: https://github.com/Christian0411/Rate-My-Professor/blob/master/script.js
+ * @return {[type]} [description]
+ * http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=university%of%saskatchewan&queryoption=HEADER&query=Mark%20Eramian&facetSearch=true
+ */
+function getProfessorSearchPage(professorName) {
+	chrome.runtime.sendMessage(extensionID, {
+		method: 'POST',
+		action: 'xhttp',
+		url: 'http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=university%of%saskatchewan&queryoption=HEADER&query=' + encodeURI(professorName) + '&facetSearch=true',
+		link: searchPageURL
+	}, function(response) {
+		// TODO: make callback function not anonymous
+			var myHTML = response.response;
+
+			var tempDiv = document.createElement('div');
+
+			tempDiv.innerHTML = myHTML.replace(/<script(.|\s)*?\/script>/g, '');
+
+			var professorClass = tempDiv.getElementsByClassName("listing PROFESSOR")[0].getElementsByTagName('a')[0]; // etc. etc.
+
+			searchPageURL =  "http://www.ratemyprofessors.com" + professorClass.getAttribute('href');
+
+			//getProfessorRating(response.professorIndex, searchPageURL)
+			console.log(searchPageURL);
+		});
 }
