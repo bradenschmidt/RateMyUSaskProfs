@@ -5,7 +5,6 @@
 
  console.log("Background");
 
-
 //This recieves the message from the main script file
 chrome.runtime.onMessage.addListener(
     function(request, sender, callback) {

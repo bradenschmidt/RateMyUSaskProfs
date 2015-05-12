@@ -22,15 +22,14 @@
   ],
 
   "permissions": [
-    "http://*.usask.ca/"
+    "http://*.usask.ca/",
+    "http://www.ratemyprofessors.com/*"
   ],
 
   "background": {
-
     "scripts": ["background.js"],
     "persistent": true
-
-    }
+  }
 
 
 }

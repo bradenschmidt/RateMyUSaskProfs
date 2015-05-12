@@ -1,5 +1,6 @@
 
 // The extension ID
+// chrome.runtime.id
 var extensionID = "jcnimoojgnaighleoldnkbhembpdhoij";
 
 var searchPageURL = "";
@@ -111,18 +112,29 @@ function getProfessorSearchPage(professorName) {
 		url: 'http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=university%of%saskatchewan&queryoption=HEADER&query=' + encodeURI(professorName) + '&facetSearch=true',
 		link: searchPageURL
 	}, function(response) {
-		// TODO: make callback function not anonymous
-			var myHTML = response.response;
+		console.log("Response")
 
-			var tempDiv = document.createElement('div');
+		if(!response) {
+			console.log("Error");
+			return;
+		}
 
-			tempDiv.innerHTML = myHTML.replace(/<script(.|\s)*?\/script>/g, '');
+		// Get the html page
+		var myHTML = response.response;
 
-			var professorClass = tempDiv.getElementsByClassName("listing PROFESSOR")[0].getElementsByTagName('a')[0]; // etc. etc.
+		// Make a new div we will use for easier parsing of prof link
+		var tempDiv = document.createElement('div');
 
-			searchPageURL =  "http://www.ratemyprofessors.com" + professorClass.getAttribute('href');
+		// Remove script tag content and place in the empty div
+		tempDiv.innerHTML = myHTML.replace(/<script(.|\s)*?\/script>/g, '');
 
-			//getProfessorRating(response.professorIndex, searchPageURL)
-			console.log(searchPageURL);
-		});
+		// Get the sub link for the professor
+		var professorClass = tempDiv.getElementsByClassName("listing PROFESSOR")[0].getElementsByTagName('a')[0];
+
+		// Form the full professor link
+		searchPageURL =  "http://www.ratemyprofessors.com" + professorClass.getAttribute('href');
+
+		//getProfessorRating(response.professorIndex, searchPageURL)
+		console.log(searchPageURL);
+	});
 }
